@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Form, FormField } from "./ui/form";
 
 type Props = {};
 
@@ -21,13 +20,7 @@ const TaskCreation = (props: Props) => {
           Create a new task by filling out the form below
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        {/* <Form>
-          <form>
-            <FormField></FormField>
-          </form>
-        </Form> */}
-      </CardContent>
+      <CardContent></CardContent>
     </Card>
   );
 };
