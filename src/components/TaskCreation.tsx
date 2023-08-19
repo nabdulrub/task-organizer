@@ -8,20 +8,173 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TaskSchema, newTaskSchema } from "@/lib/type";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Button, buttonVariants } from "./ui/button";
+import { Checkbox } from "./ui/checkbox";
+import { Plus, ListPlus } from "lucide-react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const TaskCreation = (props: Props) => {
+  const {
+    reset,
+    formState: { errors, isLoading },
+  } = useForm();
+
+  const form = useForm<TaskSchema>({
+    resolver: zodResolver(newTaskSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      priority: "LOW",
+      completed: false,
+    },
+  });
+  const onSubmit = async (data: TaskSchema) => {
+    try {
+      const response = await axios.post("/api/task", data);
+      console.log("Response:", response.data); // Log the response object
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
+
+    router.push("/");
+    reset();
+  };
+
+  const router = useRouter();
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>New Task</CardTitle>
-        <CardDescription>
-          Create a new task by filling out the form below
-        </CardDescription>
-      </CardHeader>
-      <CardContent></CardContent>
-    </Card>
+    <div className="max-h-[500px]">
+      <Card>
+        <CardHeader>
+          <CardTitle>Add New Task</CardTitle>
+          <CardDescription>
+            Create a new task by filling out this task form!
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 flex flex-col"
+            >
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Task Title</FormLabel>
+                    <FormControl>
+                      <Input placeholder="ex. buy groceries" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      This is the title of the task
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="ex. go to costco and buy milk, rice, etc."
+                        {...field}
+                        className="h-[100px]"
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This is where you are more include more information about
+                      the task.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex gap-12 items-end">
+                <FormField
+                  control={form.control}
+                  name="priority"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-2 items-start w-1/2">
+                      <FormLabel>Priority</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue className="" placeholder="Priority" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem className="flex gap-2" value="HIGH">
+                            High
+                          </SelectItem>
+                          <SelectItem value="LOW">Low</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>How important is this?</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="completed"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-2 items-start w-1/2">
+                      <div className="flex flex-row-reverse gap-2 items-center">
+                        <FormLabel>Complete?</FormLabel>
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </div>
+                      <FormDescription>Is this already done?</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <Button type="submit" className="self-end">
+                Add Task
+                <ListPlus size={18} strokeWidth={2.5} className="ml-2" />
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

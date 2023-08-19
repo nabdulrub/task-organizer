@@ -22,8 +22,8 @@ const Navbar = async (props: Props) => {
   };
 
   return (
-    <div className="relative top-0 bg-white dark:bg-gray-950 h-fit p-4">
-      <div className="flex items-center justify-between h-full gap-2 mx-auto max-w-7xl">
+    <div className="relative top-0 bg-white dark:bg-gray-950 h-fit py-4 w-full">
+      <div className="flex items-center justify-between h-full gap-2 mx-auto max-w-[90rem]">
         <NavTitle />
         <div className="flex flex-col gap-4 items-center justify-center md:flex-row">
           {!session?.user ? (

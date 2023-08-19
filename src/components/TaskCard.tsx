@@ -11,15 +11,15 @@ import { Button } from "./ui/button";
 type Props = {
   title: string;
   description: string;
-  completed: boolean;
-  priority: "LOW" | "HIGH";
+  completed?: boolean;
+  priority?: "LOW" | "HIGH";
 };
 
 const TaskCard = ({ title, description, completed, priority }: Props) => {
   var name = "";
 
   return (
-    <Card className="max-w-[329px]">
+    <Card className="w-[250px] md:w-[329px]">
       <CardHeader>
         <div className="flex gap-2 items-center">
           <CardTitle>{title}</CardTitle>

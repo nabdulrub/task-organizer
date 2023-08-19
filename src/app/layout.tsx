@@ -20,9 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        <body className={cn(inter.className, "antialiased min-h-screen p-8")}>
+        <body
+          className={cn(
+            inter.className,
+            "antialiased min-h-screen p-4 md:p-8 max-w-[90rem]"
+          )}
+        >
           <Navbar />
-          <div className="max-w-7xl">{children}</div>
+          <div>{children}</div>
         </body>
       </Providers>
     </html>
