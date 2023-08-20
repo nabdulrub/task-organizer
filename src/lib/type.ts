@@ -8,3 +8,9 @@ export const newTaskSchema = z.object({
 });
 
 export type TaskSchema = z.infer<typeof newTaskSchema>;
+
+export const taskIdSchema = z.object({
+  id: z.string(),
+});
+
+export type TaskIdSchema = z.infer<typeof taskIdSchema>;

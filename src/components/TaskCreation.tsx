@@ -38,6 +38,8 @@ import { useRouter } from "next/navigation";
 type Props = {};
 
 const TaskCreation = (props: Props) => {
+  const router = useRouter();
+
   const {
     reset,
     formState: { errors, isLoading },
@@ -62,12 +64,12 @@ const TaskCreation = (props: Props) => {
 
     router.push("/");
     reset();
+    router.refresh();
   };
 
-  const router = useRouter();
   return (
     <div className="max-h-[500px]">
-      <Card>
+      <Card className="max-w-[800px] w-[90vw] min-w-[300px]">
         <CardHeader>
           <CardTitle>Add New Task</CardTitle>
           <CardDescription>
@@ -166,7 +168,7 @@ const TaskCreation = (props: Props) => {
                   )}
                 />
               </div>
-              <Button type="submit" className="self-end">
+              <Button type="submit" className="self-end" disabled={isLoading}>
                 Add Task
                 <ListPlus size={18} strokeWidth={2.5} className="ml-2" />
               </Button>

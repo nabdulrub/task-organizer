@@ -13,6 +13,7 @@ const NewTaskButton = (props: Props) => {
       onClick={() => {
         router.push("/new");
       }}
+      className="whitespace-nowrap"
     >
       New Task
     </Button>

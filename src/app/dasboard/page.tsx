@@ -5,6 +5,7 @@ import CompletedTasks from "@/components/dashboard/CompletedTasks";
 import { getAuthSession } from "@/lib/nextauth";
 import { redirect } from "next/navigation";
 import React from "react";
+import { Separator } from "../../components/ui/separator";
 
 type Props = {};
 
@@ -15,16 +16,11 @@ const page = async (props: Props) => {
   }
 
   return (
-    <div className="grid gap-4 items-end justify-center overflow-x-auto mx-auto mt-10 w-full">
-      <div>
-        <HighPriority userId={session.user.id} />
-      </div>
-      <div>
-        <LowPriority userId={session.user.id} />
-      </div>
-      <div>
-        <CompletedTasks userId={session.user.id} />
-      </div>
+    <div className="grid gap-3 items-center overflow-x-auto mt-10 2xl:px-[11vw] md:px-0">
+      <HighPriority userId={session.user.id} />
+      <LowPriority userId={session.user.id} />
+      <Separator />
+      <CompletedTasks userId={session.user.id} />
     </div>
   );
 };
