@@ -18,13 +18,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { AiOutlineEdit } from "react-icons/ai";
+import EditTaskButton from "./EditTaskButton";
 
 type Props = {
   title: string;
   description: string;
   completed?: boolean;
   priority?: "LOW" | "HIGH";
-
+  ShowAllTasks?: boolean;
   taskId: string;
 };
 
@@ -34,6 +36,7 @@ const TaskCard = ({
   completed,
   priority,
   taskId,
+  ShowAllTasks,
 }: Props) => {
   const router = useRouter();
 
@@ -75,7 +78,13 @@ const TaskCard = ({
     router.refresh();
   };
   return (
-    <Card className="w-[250px] md:w-[329px] min-h-[172px]">
+    <Card
+      className={`${
+        ShowAllTasks
+          ? "w-full md:min-w-[250px] md:max-w-[329px]"
+          : "w-[270px] md:w-[329px]"
+      } min-h-[172px] relative`}
+    >
       <CardHeader>
         <div className="flex gap-2 items-center">
           <CardTitle>{title}</CardTitle>
@@ -84,6 +93,7 @@ const TaskCard = ({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex gap-2 items-center">
+        <EditTaskButton />
         <Dialog>
           <DialogTrigger>
             <Button
@@ -96,8 +106,8 @@ const TaskCard = ({
           <DialogContent className="flex flex-col">
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete the task:
-              <span className="text-black border-b-2 border-black">
+              Are you sure you want to delete the task:{" "}
+              <span className="text-black border-b-2 border-black font-semibold text-[1rem]">
                 {title}
               </span>
             </DialogDescription>

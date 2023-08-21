@@ -3,38 +3,47 @@ import TaskCard from "../TaskCard";
 import { prisma } from "@/lib/db";
 import { FcHighPriority } from "react-icons/fc";
 import { Button } from "../ui/button";
+import ViewAllButton from "../ViewAllButton";
 
 type Props = {
-  userId: string;
+  userId?: string;
+  take?: number;
+  ShowAllTasks: boolean;
 };
 
-const HighPriority = async ({ userId }: Props) => {
+const HighPriority = async ({ userId, take, ShowAllTasks }: Props) => {
   const task = await prisma.task.findMany({
     where: {
       userId,
       priority: "HIGH",
       completed: false,
     },
-    take: 4,
+    take: take ? take : 4,
   });
 
   return (
-    <div className="flex flex-col gap-2 w-fit mb-3">
+    <div className="flex flex-col gap-2 w-fit overflow-auto">
       <div className="flex items-center justify-between">
         <div className="flex gap-2 items-center">
           <h1 className="text-2xl font-bold capitalize">High Priority</h1>
           <FcHighPriority size={25} />
         </div>
         <div>
-          <Button
-            variant={"secondary"}
-            className="hover:bg-slate-800 hover:text-white"
-          >
-            View All
-          </Button>
+          {!ShowAllTasks ? (
+            <ViewAllButton
+              taskStatus="highpriority"
+              buttonText="All High Priority"
+            />
+          ) : null}
         </div>
       </div>
-      <div className="flex flex-nowrap overflow-x-auto space-x-4 scrollbar-hide">
+      <div
+        className={`${
+          ShowAllTasks
+            ? `grid grid-cols-1 md:grid-cols-2 max-lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-hidden`
+            : `flex gap-4 items-start overflow-hidden`
+        }`}
+      >
         {task.map((task, index) => (
           <TaskCard
             key={task.id}
@@ -43,6 +52,7 @@ const HighPriority = async ({ userId }: Props) => {
             priority={task.priority}
             completed={task.completed}
             taskId={task.id}
+            ShowAllTasks={ShowAllTasks}
           />
         ))}
       </div>

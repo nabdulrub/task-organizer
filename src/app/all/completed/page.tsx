@@ -1,4 +1,6 @@
+import ConsoleLogBtn from "@/components/ConsoleLogBtn";
 import TaskCard from "@/components/TaskCard";
+import CompletedTasks from "@/components/dashboard/CompletedTasks";
 import { prisma } from "@/lib/db";
 import { getAuthSession } from "@/lib/nextauth";
 import { redirect } from "next/navigation";
@@ -13,13 +15,11 @@ const AllCompletedTasks = async (props: Props) => {
     redirect("/");
   }
 
-  const task = await prisma.task.findMany({
-    where: {
-      id: session.user.id,
-    },
-  });
-
-  return <pre>{JSON.stringify(task, null, 4)}</pre>;
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <CompletedTasks take={50} ShowAllTasks />
+    </div>
+  );
 };
 
 export default AllCompletedTasks;

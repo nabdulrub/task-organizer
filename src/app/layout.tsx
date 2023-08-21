@@ -24,7 +24,7 @@ export default function RootLayout({
           className={cn(inter.className, "antialiased min-h-screen p-4 md:p-8")}
         >
           <Navbar />
-          <div>{children}</div>
+          <div className="mt-8">{children}</div>
         </body>
       </Providers>
     </html>

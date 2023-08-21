@@ -16,11 +16,12 @@ const page = async (props: Props) => {
   }
 
   return (
-    <div className="grid gap-3 items-center overflow-x-auto mt-10 2xl:px-[11vw] md:px-0">
-      <HighPriority userId={session.user.id} />
-      <LowPriority userId={session.user.id} />
+    <div className="grid gap-3 items-center overflow-auto mt-10 2xl:px-[11vw] md:px-0">
+      <HighPriority ShowAllTasks={false} userId={session.user.id} />
       <Separator />
-      <CompletedTasks userId={session.user.id} />
+      <LowPriority ShowAllTasks={false} userId={session.user.id} />
+      <Separator />
+      <CompletedTasks ShowAllTasks={false} userId={session.user.id} />
     </div>
   );
 };
