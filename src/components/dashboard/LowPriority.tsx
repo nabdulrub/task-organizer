@@ -53,6 +53,7 @@ const LowPriority = async ({ userId, take, ShowAllTasks }: Props) => {
             completed={task.completed}
             taskId={task.id}
             ShowAllTasks={ShowAllTasks}
+            isEdited={task.isEdited}
           />
         ))}
       </div>

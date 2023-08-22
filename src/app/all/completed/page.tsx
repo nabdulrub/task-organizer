@@ -17,7 +17,7 @@ const AllCompletedTasks = async (props: Props) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <CompletedTasks take={50} ShowAllTasks />
+      <CompletedTasks take={50} ShowAllTasks userId={session.user.id} />
     </div>
   );
 };

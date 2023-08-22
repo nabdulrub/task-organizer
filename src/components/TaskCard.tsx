@@ -28,6 +28,7 @@ type Props = {
   priority?: "LOW" | "HIGH";
   ShowAllTasks?: boolean;
   taskId: string;
+  isEdited: boolean;
 };
 
 const TaskCard = ({
@@ -37,6 +38,7 @@ const TaskCard = ({
   priority,
   taskId,
   ShowAllTasks,
+  isEdited,
 }: Props) => {
   const router = useRouter();
 
@@ -87,13 +89,16 @@ const TaskCard = ({
     >
       <CardHeader>
         <div className="flex gap-2 items-center">
-          <CardTitle>{title}</CardTitle>
+          <CardTitle>
+            {title}{" "}
+            {isEdited ? <span className="text-sm">{"(edited)"}</span> : null}
+          </CardTitle>
           <span className={`w-3 h-3 rounded-full ${checkCardStatus}`}></span>
         </div>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex gap-2 items-center">
-        <EditTaskButton />
+        {!completed ? <EditTaskButton taskId={taskId} /> : null}
         <Dialog>
           <DialogTrigger>
             <Button
@@ -106,7 +111,7 @@ const TaskCard = ({
           <DialogContent className="flex flex-col">
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete the task:{" "}
+              Are you sure you want to delete the task:
               <span className="text-black border-b-2 border-black font-semibold text-[1rem]">
                 {title}
               </span>

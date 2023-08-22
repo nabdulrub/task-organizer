@@ -31,13 +31,17 @@ import {
 } from "./ui/select";
 import { Button, buttonVariants } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
-import { Plus, ListPlus } from "lucide-react";
+import { ListPlus, Save } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Task } from "@prisma/client";
 
-type Props = {};
+type Props = {
+  EditMode?: boolean;
+  taskParam?: Pick<Task, "title" | "description" | "priority" | "id">;
+};
 
-const TaskCreation = (props: Props) => {
+const TaskCreation = ({ EditMode, taskParam }: Props) => {
   const router = useRouter();
 
   const {
@@ -48,18 +52,36 @@ const TaskCreation = (props: Props) => {
   const form = useForm<TaskSchema>({
     resolver: zodResolver(newTaskSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      priority: "LOW",
+      id: taskParam?.id ? taskParam?.id : "",
+      title: taskParam?.title ? taskParam?.title : "",
+      description: taskParam?.description ? taskParam?.description : "",
+      priority: taskParam?.priority ? taskParam?.priority : "LOW",
       completed: false,
     },
   });
+
   const onSubmit = async (data: TaskSchema) => {
     try {
+      console.log("hi");
       const response = await axios.post("/api/task", data);
-      console.log("Response:", response.data); // Log the response object
+      console.log("Response:", response.data);
     } catch (error) {
       console.error("Error creating task:", error);
+    }
+
+    router.push("/");
+    reset();
+    router.refresh();
+  };
+
+  const onUpdate = async (data: TaskSchema) => {
+    try {
+      const response = await axios.put("/api/edit", data, {
+        headers: { "Content-Type": "applicaton/json" },
+      });
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error editing task:", error);
     }
 
     router.push("/");
@@ -71,15 +93,17 @@ const TaskCreation = (props: Props) => {
     <div className="max-h-[500px]">
       <Card className="max-w-[800px] w-[90vw] min-w-[300px]">
         <CardHeader>
-          <CardTitle>Add New Task</CardTitle>
+          <CardTitle>{EditMode ? "Edit Task" : "Add New Task"}</CardTitle>
           <CardDescription>
-            Create a new task by filling out this task form!
+            {EditMode
+              ? "Edit the task below by changing the fields"
+              : "Create a new task by filling out this task form!"}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={form.handleSubmit(EditMode ? onUpdate : onSubmit)}
               className="space-y-8 flex flex-col"
             >
               <FormField
@@ -87,7 +111,7 @@ const TaskCreation = (props: Props) => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Task Title</FormLabel>
+                    <FormLabel>{EditMode ? "Edit" : null} Task Title</FormLabel>
                     <FormControl>
                       <Input placeholder="ex. buy groceries" {...field} />
                     </FormControl>
@@ -103,7 +127,9 @@ const TaskCreation = (props: Props) => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>
+                      {EditMode ? "Edit" : null} Description
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="ex. go to costco and buy milk, rice, etc."
@@ -126,7 +152,7 @@ const TaskCreation = (props: Props) => {
                   name="priority"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-2 items-start w-1/2">
-                      <FormLabel>Priority</FormLabel>
+                      <FormLabel>{EditMode ? "Edit" : null} Priority</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
@@ -154,7 +180,9 @@ const TaskCreation = (props: Props) => {
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-2 items-start w-1/2">
                       <div className="flex flex-row-reverse gap-2 items-center">
-                        <FormLabel>Complete?</FormLabel>
+                        <FormLabel>
+                          {EditMode ? "Edit" : null} Complete?
+                        </FormLabel>
                         <FormControl>
                           <Checkbox
                             checked={field.value}
@@ -169,8 +197,8 @@ const TaskCreation = (props: Props) => {
                 />
               </div>
               <Button type="submit" className="self-end" disabled={isLoading}>
-                Add Task
-                <ListPlus size={18} strokeWidth={2.5} className="ml-2" />
+                {EditMode ? "Save Changes" : "Add Task"}
+                <Save size={18} strokeWidth={2.5} className="ml-2" />
               </Button>
             </form>
           </Form>

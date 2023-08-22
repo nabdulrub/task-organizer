@@ -62,6 +62,7 @@ model Task {
   priority    Priority
   completed   Boolean  @default(false)
   createdDate DateTime @default(now())
+  isEdited    Boolean  @default(false)
   User        User?    @relation(fields: [userId], references: [id])
   userId      String?
 }
