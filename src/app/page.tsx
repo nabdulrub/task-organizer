@@ -28,10 +28,8 @@ export default async function Home() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div>
-            <Image src={Demo} width={600} alt="Demo Image" />
-          </div>
-          <SignInButton text="Sign In w/ Google" includeGoogle />
+          <Image src={Demo} width={600} alt="Demo Image" />
+          <SignInButton text="Sign In" includeGoogle className="mt-6" />
         </CardContent>
       </Card>
     </div>
