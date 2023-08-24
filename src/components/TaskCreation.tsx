@@ -62,7 +62,6 @@ const TaskCreation = ({ EditMode, taskParam }: Props) => {
 
   const onSubmit = async (data: TaskSchema) => {
     try {
-      console.log("hi");
       const response = await axios.post("/api/task", data);
       console.log("Response:", response.data);
     } catch (error) {
