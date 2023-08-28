@@ -1,4 +1,4 @@
-import HighPriority from "@/components/dashboard/HighPriorityTasks";
+import TaskSection from "@/components/dashboard/TaskSection";
 import { getAuthSession } from "@/lib/nextauth";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -13,7 +13,14 @@ const AllHighPriorityTasks = async (props: Props) => {
   }
   return (
     <div className="flex flex-col items-center justify-center">
-      <HighPriority take={50} ShowAllTasks userId={session.user.id} />
+      <TaskSection
+        take={50}
+        ShowAllTasks
+        userId={session.user.id}
+        taskStatus="highpriority"
+        completed={false}
+        priority="HIGH"
+      />
     </div>
   );
 };

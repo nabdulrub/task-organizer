@@ -1,4 +1,4 @@
-import LowPriority from "@/components/dashboard/LowPriority";
+import TaskSection from "@/components/dashboard/TaskSection";
 import { getAuthSession } from "@/lib/nextauth";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -13,7 +13,14 @@ const AllLowPriorityTasks = async (props: Props) => {
   }
   return (
     <div className="flex flex-col items-center justify-center">
-      <LowPriority take={50} ShowAllTasks userId={session.user.id} />
+      <TaskSection
+        take={50}
+        ShowAllTasks
+        userId={session.user.id}
+        taskStatus="lowpriority"
+        completed={false}
+        priority="LOW"
+      />
     </div>
   );
 };

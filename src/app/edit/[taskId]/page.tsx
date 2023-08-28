@@ -1,4 +1,3 @@
-import ConsoleLogBtn from "@/components/ConsoleLogBtn";
 import TaskCreation from "@/components/TaskCreation";
 import { prisma } from "@/lib/db";
 import { Task } from "@prisma/client";

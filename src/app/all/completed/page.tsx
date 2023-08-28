@@ -1,6 +1,6 @@
 import ConsoleLogBtn from "@/components/ConsoleLogBtn";
 import TaskCard from "@/components/TaskCard";
-import CompletedTasks from "@/components/dashboard/CompletedTasks";
+import TaskSection from "@/components/dashboard/TaskSection";
 import { prisma } from "@/lib/db";
 import { getAuthSession } from "@/lib/nextauth";
 import { redirect } from "next/navigation";
@@ -17,7 +17,14 @@ const AllCompletedTasks = async (props: Props) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <CompletedTasks take={50} ShowAllTasks userId={session.user.id} />
+      <TaskSection
+        take={50}
+        ShowAllTasks
+        userId={session.user.id}
+        taskStatus="completed"
+        completed={true}
+        priority="BOTH"
+      />
     </div>
   );
 };
