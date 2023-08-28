@@ -12,7 +12,7 @@ const NewTask = async (props: Props) => {
     redirect("/");
   }
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div className="absolute top-[450px] left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-1/2">
       <TaskCreation EditMode={false} />
     </div>
   );

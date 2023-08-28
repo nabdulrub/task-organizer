@@ -19,7 +19,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute">
+    <div className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute ">
       <Card>
         <CardHeader>
           <CardTitle>Task Organizer</CardTitle>
