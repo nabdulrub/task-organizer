@@ -38,7 +38,7 @@ import { Task } from "@prisma/client";
 
 type Props = {
   EditMode?: boolean;
-  taskParam?: Pick<Task, "title" | "description" | "priority" | "id">;
+  taskParam: any;
 };
 
 const TaskCreation = ({ EditMode, taskParam }: Props) => {

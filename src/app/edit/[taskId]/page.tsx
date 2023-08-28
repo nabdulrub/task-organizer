@@ -14,6 +14,12 @@ const TaskEditPage = async ({ params: { taskId } }: Props) => {
     where: {
       id: taskId,
     },
+    select: {
+      title: true,
+      description: true,
+      priority: true,
+      id: true,
+    },
   });
 
   return (
